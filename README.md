@@ -4,8 +4,7 @@
 
 
 
-![AndroidCalendarLib](https://github.com/Ken-Yang/AndroidCalendarLib/master/screenshot.png "AndroidCalendarLib")  
-
+![AndroidCalendarLib](https://raw.github.com/Ken-Yang/AndroidCalendarLib/master/screenshot.png "AndroidCalendarLib")
 
 
 ## Requirements
@@ -47,7 +46,7 @@ Please clone this lib to your workspace first.
 ```Java
 CalendarView cv = (CalendarView) findViewById(R.id.cvTest);
 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-cv.fnFillDate(calendar);
+cv.fnGenerate(calendar);
 ```
 
 ## License

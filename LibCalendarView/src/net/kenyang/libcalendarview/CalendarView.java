@@ -50,7 +50,7 @@ public class CalendarView extends LinearLayout {
 		tvTitle 		= (TextView) findViewById(R.id.tvTitle);
 	}
 	
-	public void fnGenerate(Calendar calendar){
+	public void fnGenerate(Calendar calendar, OnClickListener listener){
 		calendar = (Calendar) calendar.clone();
 		int iOriginDay = calendar.get(Calendar.DAY_OF_WEEK);
 		
@@ -87,6 +87,11 @@ public class CalendarView extends LinearLayout {
 						tvTmp.setVisibility(View.VISIBLE);
 						int iDate = calendar.get(Calendar.DATE);
 						tvTmp.setText(String.valueOf(iDate));
+						tvTmp.setTag((iCurrentMonth+1)+"/"+iDate);
+
+						if (listener!=null){
+							tvTmp.setOnClickListener(listener);
+						}
 						
 						// if date match today's date
 						if (iDate == iTodayDate && iCurrentMonth== iTodayMonth){

@@ -42,11 +42,17 @@ Please clone this lib to your workspace first.
 </net.kenyang.libcalendarview.CalendarView>
 ```
 
-### 2. Get the Object for generating a calendar
+### 2. Generate a calendar
 ```Java
 CalendarView cv = (CalendarView) findViewById(R.id.cvTest);
 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-cv.fnGenerate(calendar);
+OnClickListener listener = new OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(getApplicationContext(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
+    }
+};
+cv.fnGenerate(calendar, listener);
 ```
 
 ## License

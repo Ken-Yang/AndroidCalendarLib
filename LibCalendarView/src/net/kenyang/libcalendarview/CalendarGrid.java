@@ -46,23 +46,23 @@ public class CalendarGrid extends ViewGroup {
 		
 		// draw right border
 		for (int i = 0; i < 7; i++) {
-			int iX = calendarRow.getChildAt(i).getRight() - 1;
+			int iX = calendarRow.getChildAt(i).getRight() ;
 			canvas.drawLine(iX, iTop, iX, iBottom, dividerPaint);
 		}
 
 		// draw left border
-		canvas.drawLine(1, iTop, 1, iBottom, dividerPaint);
+		canvas.drawLine(0, iTop, 0, iBottom, dividerPaint);
 
 		// draw top border
 		for (int i = 0; i < 6; i++) {
 			calendarRow = (ViewGroup) getChildAt(i);
 			iTop = calendarRow.getTop();
-			canvas.drawLine(0, iTop+1, calendarRow.getRight(), iTop+1, dividerPaint);
+			canvas.drawLine(0, iTop, calendarRow.getRight()-4, iTop, dividerPaint);
 		}
 
 		// draw bottom border
 		iBottom = calendarRow.getBottom();
-		canvas.drawLine(0, iBottom-1, calendarRow.getRight(), iBottom-1, dividerPaint);
+		canvas.drawLine(0, iBottom-1, calendarRow.getRight()-4, iBottom-1, dividerPaint);
 
 	}
 

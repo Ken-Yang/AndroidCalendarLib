@@ -1,0 +1,6 @@
+<resources>
+
+    <dimen name="calendar_horizontal_margin">10dp</dimen>
+    <dimen name="calendar_vertical_margin">10dp</dimen>
+
+</resources>

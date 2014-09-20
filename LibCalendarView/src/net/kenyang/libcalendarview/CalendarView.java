@@ -31,6 +31,7 @@ import android.widget.TextView;
 public class CalendarView extends LinearLayout {
 	
 	private TextView tvTitle = null;
+	private TextView tvSelected = null;
 	private CalendarRow rowHeader = null;
 	private CalendarGrid calendarGrid = null;
 
@@ -96,15 +97,27 @@ public class CalendarView extends LinearLayout {
 						// if date match today's date
 						if (iDate == iTodayDate && iCurrentMonth== iTodayMonth){
 							tvTmp.setSelected(true);
+							tvSelected = tvTmp;
 						}
 						calendar.set(Calendar.DATE, iStartDate+=1);
 					} else {
-						tvTmp.setVisibility(View.GONE);
+						tvTmp.setVisibility(View.VISIBLE);
 					}
 				}
 			}
 		}
 		
+	}
+	
+	public void fnSetSelected(View view) {
+	    tvSelected.setSelected(false);
+	    view.setSelected(true);
+	    tvSelected = (TextView) view;
+	}
+	
+
+	public void fnSetTitleVisibility(int visibility) {
+	    tvTitle.setVisibility(View.GONE);
 	}
 	
 	public void fnSetTitle(String strValue){

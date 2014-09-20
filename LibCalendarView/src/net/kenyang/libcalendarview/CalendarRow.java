@@ -23,6 +23,7 @@ import static android.view.View.MeasureSpec.makeMeasureSpec;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -48,7 +49,7 @@ public class CalendarRow extends ViewGroup {
 			return;
 		}
 		
-		iColumnWidth 			= iScreenWidth / 7;
+		iColumnWidth 			= iScreenWidth / 7 ;
 		int iMeasureWidth 		= makeMeasureSpec(iColumnWidth, EXACTLY);
 		int iMeasureHeight 		= (getId()==R.id.crHeader) ? makeMeasureSpec(iColumnWidth, AT_MOST) : iMeasureWidth;
 		
@@ -70,7 +71,11 @@ public class CalendarRow extends ViewGroup {
 		
 		for (int i = 0; i < 7; i++) {
 	        View v = getChildAt(i);
-	        v.layout(iColumnWidth*i, 0, (i+1) * iColumnWidth ,iColumnHeight);			 // bottom
+	        
+	        v.layout(iColumnWidth*i,
+	                    0, 
+	                    (i+1) * iColumnWidth ,
+	                    iColumnHeight);			 // bottom
 		}
 	}
 

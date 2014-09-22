@@ -28,15 +28,33 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class CalendarView extends LinearLayout {
+public class CalendarView extends LinearLayout implements  android.view.View.OnClickListener{
 	
 	private TextView tvTitle = null;
 	private TextView tvSelected = null;
 	private CalendarRow rowHeader = null;
 	private CalendarGrid calendarGrid = null;
 
-	private DateFormat formatWeek  = new SimpleDateFormat("EEE",Locale.getDefault());
-	private DateFormat formatMonth = new SimpleDateFormat("MMM yyyy",Locale.getDefault());
+	public interface OnSelectedListener{
+	    /**
+	     *
+	     * @param date
+	     * @param month
+	     * @param year
+	     */
+        public abstract void onSelected(int date, int month, int year);
+	}
+
+	private OnSelectedListener listener = null;
+
+
+	public int iSelectedDate  = 0;
+	public int iSelectedMonth = 0;
+	public int iSelectedYear  = 0;
+
+
+	final private DateFormat formatWeek  = new SimpleDateFormat("EEE",Locale.getDefault());
+	final private DateFormat formatMonth = new SimpleDateFormat("MMM yyyy",Locale.getDefault());
 	
 	public CalendarView(Context cxt, AttributeSet attrs) {
 		super(cxt, attrs);
@@ -51,13 +69,18 @@ public class CalendarView extends LinearLayout {
 		tvTitle 		= (TextView) findViewById(R.id.tvTitle);
 	}
 	
-	public void fnGenerate(Calendar calendar, OnClickListener listener){
+	public void fnSetOnSelectedListener( OnSelectedListener listener) {
+	    this.listener = listener;
+	}
+
+	public void fnGenerate(Calendar calendar){
 		calendar = (Calendar) calendar.clone();
 		int iOriginDay = calendar.get(Calendar.DAY_OF_WEEK);
 		
 		Calendar today = Calendar.getInstance(Locale.getDefault());
-		int iTodayDate = today.get(Calendar.DATE);
-		int iTodayMonth = today.get(Calendar.MONTH);
+		iSelectedDate = today.get(Calendar.DATE);
+		iSelectedMonth = today.get(Calendar.MONTH);
+		iSelectedYear = calendar.get(Calendar.YEAR);
 		
 		fnSetTitle(formatMonth.format(calendar.getTime()));
 		
@@ -88,19 +111,17 @@ public class CalendarView extends LinearLayout {
 						tvTmp.setVisibility(View.VISIBLE);
 						int iDate = calendar.get(Calendar.DATE);
 						tvTmp.setText(String.valueOf(iDate));
-						tvTmp.setTag((iCurrentMonth+1)+"/"+iDate);
-
-						if (listener!=null){
-							tvTmp.setOnClickListener(listener);
-						}
+						tvTmp.setTag((iCurrentMonth+1)+"/"+iDate+"/"+iSelectedYear);
+						tvTmp.setOnClickListener(this);
 						
 						// if date match today's date
-						if (iDate == iTodayDate && iCurrentMonth== iTodayMonth){
+						if (iDate == iSelectedDate && iCurrentMonth== iSelectedMonth){
 							tvTmp.setSelected(true);
 							tvSelected = tvTmp;
 						}
 						calendar.set(Calendar.DATE, iStartDate+=1);
 					} else {
+					    tvTmp.setClickable(false);
 						tvTmp.setVisibility(View.VISIBLE);
 					}
 				}
@@ -115,6 +136,9 @@ public class CalendarView extends LinearLayout {
 	    tvSelected = (TextView) view;
 	}
 	
+	public String fnGetSelectedDate() {
+	    return tvSelected.getTag().toString();
+	}
 
 	public void fnSetTitleVisibility(int visibility) {
 	    tvTitle.setVisibility(View.GONE);
@@ -123,5 +147,20 @@ public class CalendarView extends LinearLayout {
 	public void fnSetTitle(String strValue){
 		tvTitle.setText(strValue);
 	}
+
+    @Override
+    public void onClick(View v) {
+        tvSelected.setSelected(false);
+        v.setSelected(true);
+        tvSelected = (TextView) v;
+        final String szTmp[] = tvSelected.getTag().toString().split("/");
+        iSelectedDate = Integer.parseInt(szTmp[0]);
+        iSelectedMonth = Integer.parseInt(szTmp[1]);
+
+        if (listener!=null) {
+            listener.onSelected(iSelectedDate,iSelectedMonth,iSelectedYear);
+        }
+
+    }
 
 }

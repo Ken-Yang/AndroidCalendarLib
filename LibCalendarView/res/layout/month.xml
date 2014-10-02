@@ -18,6 +18,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/calendar_vertical_margin_top"
+    android:layout_marginBottom="@dimen/calendar_vertical_margin_bottom"
     android:layout_marginLeft="@dimen/calendar_horizontal_margin"
     android:layout_marginRight="@dimen/calendar_horizontal_margin"
     android:orientation="vertical" >

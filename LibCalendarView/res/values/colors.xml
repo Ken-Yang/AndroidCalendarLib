@@ -19,6 +19,7 @@
     <color name="bg_today">#1d7fbe</color>
     <color name="tx_otherday">#16385c</color>
     <color name="tx_today">#ffffff</color>
+    <color name="marker">#D12946</color>
     
     
     <color name="monthyear">#022259</color>

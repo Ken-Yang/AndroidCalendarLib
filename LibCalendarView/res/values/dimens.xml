@@ -1,6 +1,11 @@
 <resources>
 
     <dimen name="calendar_horizontal_margin">10dp</dimen>
-    <dimen name="calendar_vertical_margin">10dp</dimen>
+    <dimen name="calendar_vertical_margin_top">10dp</dimen>
+    <dimen name="calendar_vertical_margin_bottom">10dp</dimen>
+    <dimen name="calendar_underline_margin_left">11dp</dimen>
+    <dimen name="calendar_underline_margin_right">11dp</dimen>
+    <dimen name="calendar_underline_margin_bottom">10dp</dimen>
+    <dimen name="calendar_underline_height">2dp</dimen>
 
 </resources>

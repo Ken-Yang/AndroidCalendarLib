@@ -19,6 +19,7 @@ package net.kenyang.libcalendarview;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 
@@ -26,6 +27,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class CalendarView extends LinearLayout implements  android.view.View.OnClickListener{
@@ -43,6 +45,11 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 	     * @param year
 	     */
         public abstract void onSelected(int date, int month, int year);
+	}
+
+	public static class TagKey {
+	    public static final int keyDateStr = R.id.keyDateStr;
+	    public static final int keyDateObj = R.id.keyDateObj;
 	}
 
 	private OnSelectedListener listener = null;
@@ -106,12 +113,17 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 			} else {
 				cr.setVisibility(VISIBLE);
 				for (int j = 0; j < 7; j++) {
-					TextView tvTmp = ((TextView)cr.getChildAt(j));
+				    RelativeLayout rootView = (RelativeLayout)cr.getChildAt(j);
+				    TextView tvTmp = ((TextView)rootView.getChildAt(0));
+					View v = (View)rootView.getChildAt(1);
+
 					if (calendar.get(Calendar.MONTH)==iCurrentMonth && calendar.get(Calendar.DAY_OF_WEEK)==(j+1)) {
 						tvTmp.setVisibility(View.VISIBLE);
 						int iDate = calendar.get(Calendar.DATE);
+						v.setVisibility(View.VISIBLE);
 						tvTmp.setText(String.valueOf(iDate));
-						tvTmp.setTag((iCurrentMonth+1)+"/"+iDate+"/"+iSelectedYear);
+						tvTmp.setTag(TagKey.keyDateStr, (iCurrentMonth+1)+"/"+iDate+"/"+iSelectedYear);
+						tvTmp.setTag(TagKey.keyDateObj, calendar.getTime());
 						tvTmp.setOnClickListener(this);
 						
 						// if date match today's date
@@ -137,7 +149,11 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 	}
 	
 	public String fnGetSelectedDate() {
-	    return tvSelected.getTag().toString();
+	    return tvSelected.getTag(TagKey.keyDateStr).toString();
+	}
+
+	public Date fnGetSelectedDateObj() {
+	    return (Date) tvSelected.getTag(TagKey.keyDateObj);
 	}
 
 	public void fnSetTitleVisibility(int visibility) {
@@ -148,12 +164,18 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 		tvTitle.setText(strValue);
 	}
 
+	public String fnGetTitle() {
+	    return tvTitle.getText().toString();
+	}
+
     @Override
     public void onClick(View v) {
-        tvSelected.setSelected(false);
+        if (tvSelected!=null) {
+            tvSelected.setSelected(false);
+        }
         v.setSelected(true);
         tvSelected = (TextView) v;
-        final String szTmp[] = tvSelected.getTag().toString().split("/");
+        final String szTmp[] = tvSelected.getTag(TagKey.keyDateStr).toString().split("/");
         iSelectedDate = Integer.parseInt(szTmp[0]);
         iSelectedMonth = Integer.parseInt(szTmp[1]);
 

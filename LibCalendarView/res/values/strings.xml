@@ -1,0 +1,6 @@
+<resources>
+
+  	
+	<item type="id" name="keyDateStr"></item>
+	<item type="id" name="keyDateObj"></item>
+</resources>

@@ -24,7 +24,9 @@ import java.util.Locale;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -36,6 +38,7 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 	private TextView tvSelected = null;
 	private CalendarRow rowHeader = null;
 	private CalendarGrid calendarGrid = null;
+	private static final String TAG = "calendar-lib";
 
 	public interface OnSelectedListener{
 	    /**
@@ -59,7 +62,7 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 	public int iSelectedMonth = 0;
 	public int iSelectedYear  = 0;
 
-
+	final private DateFormat formatDate = new SimpleDateFormat("M/d/yyyy",Locale.getDefault());
 	final private DateFormat formatWeek  = new SimpleDateFormat("EEE",Locale.getDefault());
 	final private DateFormat formatMonth = new SimpleDateFormat("MMM yyyy",Locale.getDefault());
 	
@@ -81,68 +84,110 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 	}
 
 	public void fnGenerate(Calendar calendar){
-		calendar = (Calendar) calendar.clone();
-		int iOriginDay = calendar.get(Calendar.DAY_OF_WEEK);
-		
-		Calendar today = Calendar.getInstance(Locale.getDefault());
-		iSelectedDate = today.get(Calendar.DATE);
-		iSelectedMonth = today.get(Calendar.MONTH);
-		iSelectedYear = calendar.get(Calendar.YEAR);
-		
-		fnSetTitle(formatMonth.format(calendar.getTime()));
-		
-		// create header
-		for (int i = 0; i < 7; i++) {
-			calendar.set(Calendar.DAY_OF_WEEK, i+1);
-			((TextView)rowHeader.getChildAt(i)).setText(formatWeek.format(calendar.getTime()));
-		}
-		calendar.set(Calendar.DAY_OF_WEEK, iOriginDay);
-		
-		// fill date
-		int iStartDate = 1;
-		int iCurrentMonth = calendar.get(Calendar.MONTH);
-
-		calendar.set(Calendar.DATE, iStartDate);
-		
-		
-		for (int i = 0; i < 6; i++) {
-			CalendarRow cr = (CalendarRow) calendarGrid.getChildAt(i);
-			
-			if (calendar.get(Calendar.WEEK_OF_MONTH)<i){
-				cr.setVisibility(GONE);
-			} else {
-				cr.setVisibility(VISIBLE);
-				for (int j = 0; j < 7; j++) {
-				    RelativeLayout rootView = (RelativeLayout)cr.getChildAt(j);
-				    TextView tvTmp = ((TextView)rootView.getChildAt(0));
-					View v = (View)rootView.getChildAt(1);
-
-					if (calendar.get(Calendar.MONTH)==iCurrentMonth && calendar.get(Calendar.DAY_OF_WEEK)==(j+1)) {
-						tvTmp.setVisibility(View.VISIBLE);
-						int iDate = calendar.get(Calendar.DATE);
-						v.setVisibility(View.VISIBLE);
-						tvTmp.setText(String.valueOf(iDate));
-						tvTmp.setTag(TagKey.keyDateStr, (iCurrentMonth+1)+"/"+iDate+"/"+iSelectedYear);
-						tvTmp.setTag(TagKey.keyDateObj, calendar.getTime());
-						tvTmp.setOnClickListener(this);
-						
-						// if date match today's date
-						if (iDate == iSelectedDate && iCurrentMonth== iSelectedMonth){
-							tvTmp.setSelected(true);
-							tvSelected = tvTmp;
-						}
-						calendar.set(Calendar.DATE, iStartDate+=1);
-					} else {
-					    tvTmp.setClickable(false);
-						tvTmp.setVisibility(View.VISIBLE);
-					}
-				}
-			}
-		}
-		
+	    fnDraw(calendar,null);
 	}
+
+	public void fnGenerate(Calendar calendar,Marker[] markers){
+	    if (markers.length<31) {
+	        Log.w(TAG, "markers length better larger than 30 or 31, otherwise some date will have no marker");
+	    }
+	    fnDraw(calendar, markers);
+	}
+
+	private void fnDraw(Calendar calendar, Marker[] markers) {
+	    calendar = (Calendar) calendar.clone();
+	    final int iOriginDay = calendar.get(Calendar.DAY_OF_WEEK);
+	    final int iMakersLength = (markers==null ) ? 0 : markers.length;
+
+	    final Calendar today = Calendar.getInstance(Locale.getDefault());
+	    iSelectedDate = today.get(Calendar.DATE);
+	    iSelectedMonth = today.get(Calendar.MONTH);
+	    iSelectedYear = calendar.get(Calendar.YEAR);
+
+	    fnSetTitle(formatMonth.format(calendar.getTime()));
+
+	    // create header
+	    for (int i = 0; i < 7; i++) {
+	        calendar.set(Calendar.DAY_OF_WEEK, i+1);
+	        ((TextView)rowHeader.getChildAt(i)).setText(formatWeek.format(calendar.getTime()));
+	    }
+	    calendar.set(Calendar.DAY_OF_WEEK, iOriginDay);
+
+	    // fill date
+	    int iStartDate = 1;
+	    int iCurrentMonth = calendar.get(Calendar.MONTH);
+
+	    calendar.set(Calendar.DATE, iStartDate);
+
+
+	    for (int i = 0; i < 6; i++) {
+	        CalendarRow cr = (CalendarRow) calendarGrid.getChildAt(i);
+
+	        if (calendar.get(Calendar.WEEK_OF_MONTH) < i) {
+	            cr.setVisibility(GONE);
+	        } else {
+	            cr.setVisibility(VISIBLE);
+	            for (int j = 0; j < 7; j++) {
+	                final RelativeLayout rootView = (RelativeLayout)cr.getChildAt(j);
+	                final TextView tvTmp = ((TextView)rootView.getChildAt(0));
+	                final View v = (View)rootView.getChildAt(1);
+
+	                if (calendar.get(Calendar.MONTH)==iCurrentMonth && calendar.get(Calendar.DAY_OF_WEEK)==(j+1)) {
+	                    tvTmp.setVisibility(View.VISIBLE);
+	                    final int iDate = calendar.get(Calendar.DATE);
+
+	                    tvTmp.setText(String.valueOf(iDate));
+	                    tvTmp.setTag(TagKey.keyDateStr, formatDate.format(calendar.getTime()));
+	                    tvTmp.setTag(TagKey.keyDateObj, calendar.getTime());
+	                    tvTmp.setOnClickListener(this);
+	                    tvTmp.setSelected(false);
+
+	                    // if date match today's date
+	                    if (iDate == iSelectedDate && iCurrentMonth== iSelectedMonth){
+	                        tvTmp.setSelected(true);
+	                        tvSelected = tvTmp;
+	                    }
+
+	                    if (iDate-1<iMakersLength) {
+	                        final Marker marker = markers[iDate-1];
+	                        if (marker != null && marker.bIsShow) {
+	                            v.setVisibility(View.VISIBLE);
+	                            v.setBackgroundColor(Color.parseColor(marker.color.toString()));
+	                        } else {
+	                            v.setVisibility(View.INVISIBLE);
+	                        }
+	                    }
+
+	                    calendar.set(Calendar.DATE, iStartDate+=1);
+	                } else {
+	                    tvTmp.setClickable(false);
+	                    tvTmp.setVisibility(View.VISIBLE);
+	                }
+	            }
+	        }
+	    }
+	}
+
 	
-	public void fnSetSelected(View view) {
+	public void fnSetSelected(Date dateSelected) {
+	    View view = null;
+	    for (int i = 0; i < 6; i++) {
+            CalendarRow cr = (CalendarRow) calendarGrid.getChildAt(i);
+            for (int j = 0; j < 7; j++) {
+                final RelativeLayout rootView = (RelativeLayout)cr.getChildAt(j);
+                final TextView tvTmp = (TextView)rootView.getChildAt(0);
+                if (tvTmp.getTag(TagKey.keyDateStr) != null && tvTmp.getTag(TagKey.keyDateStr).equals(formatDate.format(dateSelected))){
+                    view = tvTmp;
+                    break;
+                }
+            }
+            if (view!=null) break;
+        }
+        
+        if (view == null) {
+            return;
+        }
+	    
 	    tvSelected.setSelected(false);
 	    view.setSelected(true);
 	    tvSelected = (TextView) view;

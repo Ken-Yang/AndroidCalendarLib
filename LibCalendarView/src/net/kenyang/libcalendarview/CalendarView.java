@@ -24,6 +24,10 @@ import java.util.Locale;
 
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RotateDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -153,24 +157,29 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 	                            v.setVisibility(View.VISIBLE);
 
 	                            RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams)v.getLayoutParams();
-
+	                            GradientDrawable bgShape = null;
 	                            switch (marker.type) {
 	                                case Circle:
 	                                    v.setBackgroundResource(R.drawable.marker_circle);
 	                                    p.setMargins(p.leftMargin, p.topMargin, p.rightMargin, p.bottomMargin-p.bottomMargin/2);
+	                                    bgShape = (GradientDrawable)v.getBackground();
 	                                    break;
 	                                case Triangle:
 	                                    p.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
 	                                    p.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
 	                                    p.setMargins(0, p.topMargin, p.rightMargin, p.bottomMargin);
 	                                    v.setBackgroundResource(R.drawable.marker_triangle);
+	                                    bgShape = (GradientDrawable) ((RotateDrawable) ((LayerDrawable)v.getBackground()).findDrawableByLayerId(R.id.shape_triangle)).getDrawable();
 	                                    break;
 	                                case Underline:
 	                                    v.setBackgroundResource(R.drawable.marker_underline);
+	                                    bgShape = (GradientDrawable)v.getBackground();
 	                                    break;
 	                                default:
 	                                    break;
 	                            }
+	                            bgShape.setColor(Color.parseColor(marker.color.toString()));
+
 	                        } else {
 	                            v.setVisibility(View.INVISIBLE);
 	                        }

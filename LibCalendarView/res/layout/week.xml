@@ -12,14 +12,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal|center_vertical" />
-        <View
+        <ImageView
+            android:contentDescription="@string/marker"
             android:visibility="gone"
-            android:background="@color/marker"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/calendar_underline_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/marker_circle"
             android:layout_marginLeft="@dimen/calendar_underline_margin_left"
             android:layout_marginRight="@dimen/calendar_underline_margin_right"
             android:layout_marginBottom="@dimen/calendar_underline_margin_bottom"
+            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
@@ -31,16 +33,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal|center_vertical" />
-        <View
+        <ImageView
+            android:contentDescription="@string/marker"
             android:visibility="gone"
-            android:background="@color/marker"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/calendar_underline_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/marker_circle"
             android:layout_marginLeft="@dimen/calendar_underline_margin_left"
             android:layout_marginRight="@dimen/calendar_underline_margin_right"
             android:layout_marginBottom="@dimen/calendar_underline_margin_bottom"
+            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
+    
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
@@ -49,16 +54,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal|center_vertical" />
-        <View
+        <ImageView
+            android:contentDescription="@string/marker"
             android:visibility="gone"
-            android:background="@color/marker"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/calendar_underline_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/marker_circle"
             android:layout_marginLeft="@dimen/calendar_underline_margin_left"
             android:layout_marginRight="@dimen/calendar_underline_margin_right"
             android:layout_marginBottom="@dimen/calendar_underline_margin_bottom"
+            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
+    
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
@@ -67,16 +75,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal|center_vertical" />
-        <View
+        <ImageView
+            android:contentDescription="@string/marker"
             android:visibility="gone"
-            android:background="@color/marker"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/calendar_underline_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/marker_circle"
             android:layout_marginLeft="@dimen/calendar_underline_margin_left"
             android:layout_marginRight="@dimen/calendar_underline_margin_right"
             android:layout_marginBottom="@dimen/calendar_underline_margin_bottom"
+            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
+    
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
@@ -85,16 +96,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal|center_vertical" />
-        <View
+        <ImageView
+            android:contentDescription="@string/marker"
             android:visibility="gone"
-            android:background="@color/marker"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/calendar_underline_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/marker_circle"
             android:layout_marginLeft="@dimen/calendar_underline_margin_left"
             android:layout_marginRight="@dimen/calendar_underline_margin_right"
             android:layout_marginBottom="@dimen/calendar_underline_margin_bottom"
+            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
+    
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
@@ -103,16 +117,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal|center_vertical" />
-        <View
+        <ImageView
+            android:contentDescription="@string/marker"
             android:visibility="gone"
-            android:background="@color/marker"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/calendar_underline_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/marker_circle"
             android:layout_marginLeft="@dimen/calendar_underline_margin_left"
             android:layout_marginRight="@dimen/calendar_underline_margin_right"
             android:layout_marginBottom="@dimen/calendar_underline_margin_bottom"
+            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
+    
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
@@ -121,14 +138,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal|center_vertical" />
-        <View
+        <ImageView
+            android:contentDescription="@string/marker"
             android:visibility="gone"
-            android:background="@color/marker"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/calendar_underline_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/marker_circle"
             android:layout_marginLeft="@dimen/calendar_underline_margin_left"
             android:layout_marginRight="@dimen/calendar_underline_margin_right"
             android:layout_marginBottom="@dimen/calendar_underline_margin_bottom"
+            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
     

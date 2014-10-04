@@ -24,7 +24,6 @@ import java.util.Locale;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -152,7 +151,26 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 	                        final Marker marker = markers[iDate-1];
 	                        if (marker != null && marker.bIsShow) {
 	                            v.setVisibility(View.VISIBLE);
-	                            v.setBackgroundColor(Color.parseColor(marker.color.toString()));
+
+	                            RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams)v.getLayoutParams();
+
+	                            switch (marker.type) {
+	                                case Circle:
+	                                    v.setBackgroundResource(R.drawable.marker_circle);
+	                                    p.setMargins(p.leftMargin, p.topMargin, p.rightMargin, p.bottomMargin-p.bottomMargin/2);
+	                                    break;
+	                                case Triangle:
+	                                    p.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
+	                                    p.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+	                                    p.setMargins(0, p.topMargin, p.rightMargin, p.bottomMargin);
+	                                    v.setBackgroundResource(R.drawable.marker_triangle);
+	                                    break;
+	                                case Underline:
+	                                    v.setBackgroundResource(R.drawable.marker_underline);
+	                                    break;
+	                                default:
+	                                    break;
+	                            }
 	                        } else {
 	                            v.setVisibility(View.INVISIBLE);
 	                        }

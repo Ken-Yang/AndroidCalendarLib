@@ -3,4 +3,5 @@
   	
 	<item type="id" name="keyDateStr"></item>
 	<item type="id" name="keyDateObj"></item>
+	<string name="marker">just a marker</string>
 </resources>

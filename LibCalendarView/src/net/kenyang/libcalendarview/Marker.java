@@ -3,7 +3,7 @@ package net.kenyang.libcalendarview;
 
 public class Marker {
     public COLOR_CODE color;
-    
+    public MARKER_TYPE type;
     public boolean bIsShow=false;
     
     public enum COLOR_CODE {
@@ -24,15 +24,21 @@ public class Marker {
         }
     }
     
+    public enum MARKER_TYPE {
+        Circle, Underline, Triangle
+    }
+    
     public Marker() {
     }
     
     /**
      * 
      * @param c
+     * @param t
      */
-    public Marker(COLOR_CODE c) {
+    public Marker(COLOR_CODE c, MARKER_TYPE t) {
         color = c;
+        type = t;
     }
     
     /**

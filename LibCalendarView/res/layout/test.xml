@@ -23,9 +23,9 @@
     android:layout_marginTop="@dimen/calendar_vertical_margin_top"
     android:orientation="vertical" >
 
-    <Button
+    <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:background="@drawable/marker_triangle" />
+        android:src="@drawable/marker_triangle" />
 
 </LinearLayout>

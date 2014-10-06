@@ -31,6 +31,7 @@ import android.graphics.drawable.RotateDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -133,7 +134,7 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 	            for (int j = 0; j < 7; j++) {
 	                final RelativeLayout rootView = (RelativeLayout)cr.getChildAt(j);
 	                final TextView tvTmp = ((TextView)rootView.getChildAt(0));
-	                final View v = (View)rootView.getChildAt(1);
+	                final ImageView v = (ImageView)rootView.getChildAt(1);
 
 	                if (calendar.get(Calendar.MONTH)==iCurrentMonth && calendar.get(Calendar.DAY_OF_WEEK)==(j+1)) {
 	                    tvTmp.setVisibility(View.VISIBLE);
@@ -165,10 +166,10 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 	                                    bgShape = (GradientDrawable)v.getBackground();
 	                                    break;
 	                                case Triangle:
+	                                    v.setBackgroundResource(R.drawable.marker_triangle);
 	                                    p.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
 	                                    p.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
 	                                    p.setMargins(0, p.topMargin, p.rightMargin, p.bottomMargin);
-	                                    v.setBackgroundResource(R.drawable.marker_triangle);
 	                                    bgShape = (GradientDrawable) ((RotateDrawable) ((LayerDrawable)v.getBackground()).findDrawableByLayerId(R.id.shape_triangle)).getDrawable();
 	                                    break;
 	                                case Underline:

@@ -30,7 +30,7 @@ public class CalendarRow extends ViewGroup {
 
 	private int iColumnWidth = 0;
 	private int iColumnHeight = 0;
-	private int iOldScreenWidth;
+//	private int iOldScreenWidth;
 	
 	public CalendarRow(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -42,11 +42,14 @@ public class CalendarRow extends ViewGroup {
 
 		int iScreenWidth 	= MeasureSpec.getSize(widthMeasureSpec);
 		
-		// do not calculate size twice
-		if (iOldScreenWidth == iScreenWidth && iColumnHeight != 0) {
-			setMeasuredDimension(getMeasuredWidth(), iColumnHeight);
-			return;
-		}
+		/**
+		 * Because in the new version, we support marker, we need to recalculate
+		 */
+//		// do not calculate size twice
+//		if (iOldScreenWidth == iScreenWidth && iColumnHeight != 0) {
+//			setMeasuredDimension(getMeasuredWidth(), iColumnHeight);
+//			return;
+//		}
 		
 		iColumnWidth 			= iScreenWidth / 7 ;
 		int iMeasureWidth 		= makeMeasureSpec(iColumnWidth, EXACTLY);

@@ -29,7 +29,7 @@ import android.view.ViewGroup;
 public class CalendarGrid extends ViewGroup {
 
 	private Paint dividerPaint = null;
-	private int iOldScreenWidth;
+//	private int iOldScreenWidth;
 	public CalendarGrid(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		dividerPaint = new Paint();
@@ -70,14 +70,17 @@ public class CalendarGrid extends ViewGroup {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		
 		int iScreenWidth = MeasureSpec.getSize(widthMeasureSpec);
+
+		/**
+		 * Because in the new version, we support marker, we need to recalculate
+		 */
+//		// do not calculate size twice
+//		if (iOldScreenWidth == iScreenWidth) {
+//			setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight());
+//			return;
+//		}
 		
-		// do not calculate size twice
-		if (iOldScreenWidth == iScreenWidth) {
-			setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight());
-			return;
-		}
-		
-		iOldScreenWidth = iScreenWidth;
+//		iOldScreenWidth = iScreenWidth;
 		int iColumnSize = iScreenWidth / 7;
 		int iGridHeight = 0; // used for record the grid height
 

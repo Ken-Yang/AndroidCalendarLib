@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -154,36 +155,7 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 
 	                    if (iDate-1<iMakersLength) {
 	                        final Marker marker = markers[iDate-1];
-	                        if (marker != null && marker.bIsShow) {
-	                            v.setVisibility(View.VISIBLE);
-
-	                            RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams)v.getLayoutParams();
-	                            GradientDrawable bgShape = null;
-	                            switch (marker.type) {
-	                                case Circle:
-	                                    v.setBackgroundResource(R.drawable.marker_circle);
-	                                    p.setMargins(p.leftMargin, p.topMargin, p.rightMargin, p.bottomMargin-p.bottomMargin/2);
-	                                    bgShape = (GradientDrawable)v.getBackground();
-	                                    break;
-	                                case Triangle:
-	                                    v.setBackgroundResource(R.drawable.marker_triangle);
-	                                    p.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
-	                                    p.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-	                                    p.setMargins(0, p.topMargin, p.rightMargin, p.bottomMargin);
-	                                    bgShape = (GradientDrawable) ((RotateDrawable) ((LayerDrawable)v.getBackground()).findDrawableByLayerId(R.id.shape_triangle)).getDrawable();
-	                                    break;
-	                                case Underline:
-	                                    v.setBackgroundResource(R.drawable.marker_underline);
-	                                    bgShape = (GradientDrawable)v.getBackground();
-	                                    break;
-	                                default:
-	                                    break;
-	                            }
-	                            bgShape.setColor(Color.parseColor(marker.color.toString()));
-
-	                        } else {
-	                            v.setVisibility(View.INVISIBLE);
-	                        }
+	                        fnSetMarker(v,marker);
 	                    }
 
 	                    calendar.set(Calendar.DATE, iStartDate+=1);
@@ -196,31 +168,86 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 	    }
 	}
 
+	public void fnAddMarkerOn(Date dateSelected,Marker marker) {
+	    final RelativeLayout rootView = fnFindViewByTag(dateSelected);
+	    if (rootView == null) {
+	        return;
+	    }
+
+	    final ImageView view = (ImageView) rootView.getChildAt(1);
+
+	    fnSetMarker(view,marker);
+
+	}
 	
 	public void fnSetSelected(Date dateSelected) {
-	    View view = null;
-	    for (int i = 0; i < 6; i++) {
-            CalendarRow cr = (CalendarRow) calendarGrid.getChildAt(i);
-            for (int j = 0; j < 7; j++) {
-                final RelativeLayout rootView = (RelativeLayout)cr.getChildAt(j);
-                final TextView tvTmp = (TextView)rootView.getChildAt(0);
-                if (tvTmp.getTag(TagKey.keyDateStr) != null && tvTmp.getTag(TagKey.keyDateStr).equals(formatDate.format(dateSelected))){
-                    view = tvTmp;
-                    break;
-                }
-            }
-            if (view!=null) break;
-        }
-        
+	    final RelativeLayout rootView = fnFindViewByTag(dateSelected);
+	    if (rootView == null) {
+	        return;
+	    }
+
+	    final View view = rootView.getChildAt(0);
         if (view == null) {
             return;
         }
-	    
+
 	    tvSelected.setSelected(false);
 	    view.setSelected(true);
 	    tvSelected = (TextView) view;
 	}
 	
+	private void fnSetMarker(ImageView v, Marker m) {
+        if (m != null && m.bIsShow) {
+            v.setVisibility(View.VISIBLE);
+
+            RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams)v.getLayoutParams();
+            GradientDrawable bgShape = null;
+            switch (m.type) {
+                case Circle:
+                    v.setBackgroundResource(R.drawable.marker_circle);
+                    p.setMargins(p.leftMargin, p.topMargin, p.rightMargin, p.bottomMargin-p.bottomMargin/2);
+                    bgShape = (GradientDrawable)v.getBackground();
+                    break;
+                case Triangle:
+                    v.setBackgroundResource(R.drawable.marker_triangle);
+                    p.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
+                    p.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+                    p.setMargins(0, p.topMargin, p.rightMargin, p.bottomMargin);
+                    bgShape = (GradientDrawable) ((RotateDrawable) ((LayerDrawable)v.getBackground()).findDrawableByLayerId(R.id.shape_triangle)).getDrawable();
+                    break;
+                case Underline:
+                    v.setBackgroundResource(R.drawable.marker_underline);
+                    bgShape = (GradientDrawable)v.getBackground();
+                    break;
+                default:
+                    break;
+            }
+            bgShape.setColor(Color.parseColor(m.color.toString()));
+
+        } else {
+            v.setVisibility(View.INVISIBLE);
+        }	    
+	}
+
+	private RelativeLayout fnFindViewByTag(Date dateSelected) {
+	    final String strDate = formatDate.format(dateSelected);
+	    RelativeLayout rootView = null;
+	    for (int i = 0; i < 6; i++) {
+	        CalendarRow cr = (CalendarRow) calendarGrid.getChildAt(i);
+	        for (int j = 0; j < 7; j++) {
+	            rootView = (RelativeLayout)cr.getChildAt(j);
+	            final TextView tvTmp = (TextView)rootView.getChildAt(0);
+	            if (tvTmp.getTag(TagKey.keyDateStr) != null && tvTmp.getTag(TagKey.keyDateStr).toString().equals(strDate)){
+	                break;
+	            }
+	            rootView = null;
+	        }
+	        if (rootView!=null) break;
+	    }
+
+	    return rootView;
+	}
+
 	public String fnGetSelectedDate() {
 	    return tvSelected.getTag(TagKey.keyDateStr).toString();
 	}

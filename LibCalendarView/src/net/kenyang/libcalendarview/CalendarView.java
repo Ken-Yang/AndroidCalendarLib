@@ -276,8 +276,8 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
         v.setSelected(true);
         tvSelected = (TextView) v;
         final String szTmp[] = tvSelected.getTag(TagKey.keyDateStr).toString().split("/");
-        iSelectedDate = Integer.parseInt(szTmp[0]);
-        iSelectedMonth = Integer.parseInt(szTmp[1]);
+        iSelectedDate = Integer.parseInt(szTmp[1]);
+        iSelectedMonth = Integer.parseInt(szTmp[0]);
 
         if (listener!=null) {
             listener.onSelected(iSelectedDate,iSelectedMonth,iSelectedYear);

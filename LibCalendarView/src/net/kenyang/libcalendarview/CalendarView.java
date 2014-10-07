@@ -139,6 +139,7 @@ public class CalendarView extends LinearLayout implements  android.view.View.OnC
 
 	                if (calendar.get(Calendar.MONTH)==iCurrentMonth && calendar.get(Calendar.DAY_OF_WEEK)==(j+1)) {
 	                    tvTmp.setVisibility(View.VISIBLE);
+	                    tvTmp.setClickable(true);
 	                    final int iDate = calendar.get(Calendar.DATE);
 
 	                    tvTmp.setText(String.valueOf(iDate));
